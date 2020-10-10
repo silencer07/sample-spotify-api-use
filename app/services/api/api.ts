@@ -2,45 +2,36 @@ import { ApisauceInstance, create, ApiResponse } from "apisauce"
 import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
+import { PlaylistSnapshot } from "../../models/playlist"
 
-/**
- * Manages all requests to the API.
- */
 export class Api {
-  /**
-   * The underlying apisauce instance which performs the requests.
-   */
   apisauce: ApisauceInstance
-
-  /**
-   * Configurable options.
-   */
   config: ApiConfig
 
-  /**
-   * Creates the api.
-   *
-   * @param config The configuration to use.
-   */
   constructor(config: ApiConfig = DEFAULT_API_CONFIG) {
     this.config = config
   }
 
-  /**
-   * Sets up the API.  This will be called during the bootup
-   * sequence and will happen before the first React component
-   * is mounted.
-   *
-   * Be as quick as possible in here.
-   */
   setup() {
     // construct the apisauce instance
     this.apisauce = create({
       baseURL: this.config.url,
-      timeout: this.config.timeout,
-      headers: {
-        Accept: "application/json",
-      },
+      timeout: this.config.timeout
+    })
+  }
+
+  async getPlaylist(accessToken: string): Promise<PlaylistSnapshot[]> {
+    this.apisauce.setHeader("Authorization", `Bearer ${accessToken}`)
+    const result = await this.apisauce.get("/browse/featured-playlists")
+    console.log("result", JSON.stringify(result))
+    const data = result.data as any
+    return data.playlists.items.map(i => {
+      return {
+        id: i.id,
+        name: i.name,
+        description: i.description,
+        imageUrl: i.images[0].url
+      } as PlaylistSnapshot
     })
   }
 

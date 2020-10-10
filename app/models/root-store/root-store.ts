@@ -1,5 +1,6 @@
-import { flow, Instance, SnapshotOut, types } from "mobx-state-tree"
+import { applySnapshot, flow, Instance, SnapshotOut, types } from "mobx-state-tree"
 import { UserModel } from "../user"
+import { PlaylistModel } from "../playlist"
 import { withEnvironment } from ".."
 
 /**
@@ -7,7 +8,8 @@ import { withEnvironment } from ".."
  */
 // prettier-ignore
 export const RootStoreModel = types.model("RootStore").props({
-  user: types.maybeNull(UserModel)
+  user: types.maybeNull(UserModel),
+  playlist: types.array(PlaylistModel)
 }).extend(withEnvironment)
   .actions(self => ({
     login: flow(function * () {
@@ -20,6 +22,20 @@ export const RootStoreModel = types.model("RootStore").props({
         return true
       } catch (e) {
         __DEV__ && console.tron.error(`error while trying to authorize the app`, JSON.stringify(e))
+      }
+      return false
+    }),
+    getPlaylist: flow(function * () {
+      try {
+        const refreshTokenSuccess = self.user.refreshAuthorization()
+        if (refreshTokenSuccess) {
+          const result = yield self.environment.api.getPlaylist(self.user.accessToken)
+          console.log("result", result)
+          applySnapshot(self.playlist, result)
+          return true
+        }
+      } catch (e) {
+        console.log(`error while trying to get playlists`, JSON.stringify(e))
       }
       return false
     })
