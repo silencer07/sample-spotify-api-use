@@ -30,7 +30,8 @@ export class Api {
         id: i.id,
         name: i.name,
         description: i.description,
-        imageUrl: i.images[0].url
+        imageUrl: i.images[0].url,
+        trackCount: i.tracks.total || 0
       } as PlaylistSnapshot
     })
   }

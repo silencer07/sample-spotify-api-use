@@ -9,7 +9,8 @@ export const PlaylistModel = types
     id: types.string,
     name: types.string,
     description: types.string,
-    imageUrl: types.string
+    imageUrl: types.string,
+    trackCount: types.number
   })
   .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
