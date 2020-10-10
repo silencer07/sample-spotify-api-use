@@ -1,9 +1,9 @@
 import React, { useEffect } from "react"
 import { observer } from "mobx-react-lite"
-// import { useNavigation } from "@react-navigation/native"
+import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
 import { Avatar, Layout, List, ListItem, Text } from "@ui-kitten/components"
-import { Alert, SafeAreaView, StyleSheet } from "react-native"
+import { ActivityIndicator, Alert, SafeAreaView, StyleSheet } from "react-native"
 
 const styles = StyleSheet.create({
   full: { flex: 1, width: "100%" },
@@ -13,7 +13,8 @@ const styles = StyleSheet.create({
 })
 
 export const PlaylistScreen = observer(function PlaylistScreen() {
-  const { playlist, getPlaylist } = useStores()
+  const { playlist, getPlaylist, user } = useStores()
+  const { refreshAuthorization } = user
 
   useEffect(() => {
     (async () => {
@@ -24,8 +25,7 @@ export const PlaylistScreen = observer(function PlaylistScreen() {
     })()
   }, [getPlaylist])
 
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const navigation = useNavigation()
   return (
     <SafeAreaView style={styles.full}>
       <Layout style={styles.root}>
@@ -40,6 +40,24 @@ export const PlaylistScreen = observer(function PlaylistScreen() {
               </Text>}
               description={item.description}
               accessoryLeft={() => <Avatar size='giant' source={{ uri: item.imageUrl }}/>}
+              onPress={async () => {
+                if (item.tracks.length === 0) {
+                  const refreshTokenSuccess = await refreshAuthorization()
+                  if (refreshTokenSuccess) {
+                    const success = await item.getTracks()
+                    if (success) {
+                      navigation.navigate("tracklist", { id: item.id })
+                    } else {
+                      Alert.alert("Track retrieval failed", "Please check your internet connection.")
+                    }
+                  } else {
+                    Alert.alert("Refresh token failed", "Please check your internet connection.")
+                  }
+                } else {
+                  navigation.navigate("tracklist", { id: item.id })
+                }
+              }}
+              accessoryRight={() => item.status === "pending" ? <ActivityIndicator size="small" /> : null}
             />
           )}
         />

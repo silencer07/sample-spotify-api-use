@@ -3,6 +3,8 @@ import { getGeneralApiProblem } from "./api-problem"
 import { ApiConfig, DEFAULT_API_CONFIG } from "./api-config"
 import * as Types from "./api.types"
 import { PlaylistSnapshot } from "../../models/playlist"
+import { TrackSnapshot } from "../../models/track"
+import { ArtistSnapshot } from "../../models/artist"
 
 export class Api {
   apisauce: ApisauceInstance
@@ -33,6 +35,30 @@ export class Api {
         imageUrl: i.images[0].url,
         trackCount: i.tracks.total || 0
       } as PlaylistSnapshot
+    })
+  }
+
+  async getPlaylistTracks(accessToken: string, playlistId: string): Promise<TrackSnapshot[]> {
+    const result = await this.apisauce.get(`/playlists/${playlistId}/tracks`)
+    console.log("result", JSON.stringify(result))
+    const data = result.data as any
+    return data.items.map(i => {
+      const artists = i.track.album.artists.map(i => {
+        return {
+          id: i.id,
+          name: i.name
+        } as ArtistSnapshot
+      })
+      const track: TrackSnapshot = {
+        id: i.track.album.id,
+        name: i.track.name,
+        imageUrl: i.track.album.images[0].url,
+        album: i.track.album.name,
+        durationMs: i.track.duration_ms,
+        popularity: i.track.popularity,
+        artists: artists
+      }
+      return track
     })
   }
 

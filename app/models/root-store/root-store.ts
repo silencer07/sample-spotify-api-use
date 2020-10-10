@@ -11,7 +11,11 @@ export const RootStoreModel = types.model("RootStore").props({
   user: types.maybeNull(UserModel),
   playlist: types.array(PlaylistModel)
 }).extend(withEnvironment)
-  .actions(self => ({
+  .views(self => ({
+    findPlaylistById: function(id: string) {
+      return self.playlist.find(i => i.id === id)
+    }
+  })).actions(self => ({
     login: flow(function * () {
       try {
         const result = yield self.environment.authHandler.onLogin()
