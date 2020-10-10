@@ -1,4 +1,5 @@
 import { Api } from "../services/api"
+import { AuthenticationHandler } from "../services/api/authentication-handler"
 
 let ReactotronDev
 if (__DEV__) {
@@ -18,6 +19,7 @@ export class Environment {
       this.reactotron = new ReactotronDev()
     }
     this.api = new Api()
+    this.authHandler = new AuthenticationHandler()
   }
 
   async setup() {
@@ -26,6 +28,7 @@ export class Environment {
       await this.reactotron.setup()
     }
     await this.api.setup()
+    await this.authHandler.setup()
   }
 
   /**
@@ -37,4 +40,5 @@ export class Environment {
    * Our api.
    */
   api: Api
+  authHandler: AuthenticationHandler
 }

@@ -161,8 +161,14 @@
 				CCDC1F46202E9332AB0F824F /* Pods-SampleSpotifyApiUse-tvOSTests.debug.xcconfig */,
 				601D6BC46D9C34543DD53A61 /* Pods-SampleSpotifyApiUse-tvOSTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		6BAFAAF14362447DA285AF19 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Resources;
 			sourceTree = "<group>";
 		};
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
@@ -198,14 +204,6 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
-		};
-		6BAFAAF14362447DA285AF19 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -673,7 +671,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.knowledgebrewery.samplespotifyapiuse;
 				PRODUCT_NAME = SampleSpotifyApiUse;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -695,7 +693,7 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
+				PRODUCT_BUNDLE_IDENTIFIER = com.knowledgebrewery.samplespotifyapiuse;
 				PRODUCT_NAME = SampleSpotifyApiUse;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
