@@ -1,4 +1,4 @@
-package com.samplespotifyapiuse;
+package com.knowledgebrewery.samplespotifyapiuse;
 
 import com.facebook.react.ReactActivity;
 
