@@ -17,7 +17,11 @@ export const PlaylistModel = types
   })
   .extend(withEnvironment)
   .extend(withStatus)
-  .views(self => ({})) // eslint-disable-line @typescript-eslint/no-unused-vars
+  .views(self => ({
+    findTrackById: function(id: string) {
+      return self.tracks.find(i => i.id === id)
+    }
+  })) // eslint-disable-line @typescript-eslint/no-unused-vars
   .actions(self => ({
     getTracks: flow(function * (accessToken: string) {
       self.status = "pending"

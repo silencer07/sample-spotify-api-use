@@ -8,6 +8,7 @@ import React from "react"
 
 import { createNativeStackNavigator } from "react-native-screens/native-stack"
 import { WelcomeScreen, DemoScreen, PlaylistScreen, LoginScreen, TracklistScreen } from "../screens"
+import { TrackDetailsScreen } from "../screens/trackdetails-screen/trackdetails-screen"
 
 /**
  * This type allows TypeScript to know what routes are defined in this navigator
@@ -25,6 +26,7 @@ export type PrimaryParamList = {
   login: undefined
   playlist: undefined
   tracklist: undefined
+  trackdetails: undefined
   welcome: undefined
   demo: undefined
 }
@@ -43,6 +45,7 @@ export function PrimaryNavigator() {
       <Stack.Screen name="login" component={LoginScreen} />
       <Stack.Screen name="playlist" component={PlaylistScreen} />
       <Stack.Screen name="tracklist" component={TracklistScreen} />
+      <Stack.Screen name="trackdetails" component={TrackDetailsScreen} />
       <Stack.Screen name="welcome" component={WelcomeScreen} />
       <Stack.Screen name="demo" component={DemoScreen} />
     </Stack.Navigator>

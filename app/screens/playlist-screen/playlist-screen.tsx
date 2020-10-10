@@ -1,9 +1,9 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
-import { Avatar, Layout, List, ListItem, Text } from "@ui-kitten/components"
-import { ActivityIndicator, Alert, SafeAreaView, StyleSheet } from "react-native"
+import { Avatar, Layout, List, ListItem, Spinner, Text } from "@ui-kitten/components"
+import { Alert, SafeAreaView, StyleSheet } from "react-native"
 
 const styles = StyleSheet.create({
   full: { flex: 1, width: "100%" },
@@ -24,6 +24,7 @@ export const PlaylistScreen = observer(function PlaylistScreen() {
       }
     })()
   }, [getPlaylist])
+  const [trackLoadingId, setTrackLoadingId] = useState(null)
 
   const navigation = useNavigation()
   return (
@@ -32,7 +33,7 @@ export const PlaylistScreen = observer(function PlaylistScreen() {
         <List
           style={styles.full}
           data={playlist}
-          extraData={playlist.length}
+          extraData={trackLoadingId}
           renderItem={({ item }) => (
             <ListItem
               title={() => <Text category="label" style={styles.name}>
@@ -42,6 +43,7 @@ export const PlaylistScreen = observer(function PlaylistScreen() {
               accessoryLeft={() => <Avatar size='giant' source={{ uri: item.imageUrl }}/>}
               onPress={async () => {
                 if (item.tracks.length === 0) {
+                  setTrackLoadingId(item.id)
                   const refreshTokenSuccess = await refreshAuthorization()
                   if (refreshTokenSuccess) {
                     const success = await item.getTracks()
@@ -53,11 +55,12 @@ export const PlaylistScreen = observer(function PlaylistScreen() {
                   } else {
                     Alert.alert("Refresh token failed", "Please check your internet connection.")
                   }
+                  setTrackLoadingId(null)
                 } else {
                   navigation.navigate("tracklist", { id: item.id })
                 }
               }}
-              accessoryRight={() => item.status === "pending" ? <ActivityIndicator size="small" /> : null}
+              accessoryRight={() => trackLoadingId === item.id ? <Spinner /> : null}
             />
           )}
         />

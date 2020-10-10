@@ -2,7 +2,7 @@ import React from "react"
 import { observer } from "mobx-react-lite"
 import { SafeAreaView, StyleSheet, View } from "react-native"
 import { Avatar, Layout, List, ListItem, Text } from "@ui-kitten/components"
-import { useRoute } from "@react-navigation/native"
+import { useRoute, useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
 import { Rating } from "react-native-ratings"
 
@@ -20,11 +20,7 @@ export const TracklistScreen = observer(function TracklistScreen() {
   const route = useRoute() as any
 
   const playlist = findPlaylistById(route.params.id)
-  // OR
-  // const rootStore = useStores()
-
-  // Pull in navigation via hook
-  // const navigation = useNavigation()
+  const navigation = useNavigation()
   return (
     <SafeAreaView style={styles.full}>
       <Layout style={styles.root}>
@@ -48,6 +44,7 @@ export const TracklistScreen = observer(function TracklistScreen() {
                 </View>
               )}
               accessoryLeft={() => <Avatar size='giant' source={{ uri: item.imageUrl }}/>}
+              onPress={() => navigation.navigate("trackdetails", { playlistId: playlist.id, trackId: item.id })}
             />
           )}
         />
