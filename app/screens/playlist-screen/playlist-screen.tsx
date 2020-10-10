@@ -33,7 +33,7 @@ export const PlaylistScreen = observer(function PlaylistScreen() {
         <List
           style={styles.full}
           data={playlist}
-          extraData={trackLoadingId}
+          extraData={{ length: playlist.length, id: trackLoadingId }}
           renderItem={({ item }) => (
             <ListItem
               title={() => <Text category="label" style={styles.name}>
