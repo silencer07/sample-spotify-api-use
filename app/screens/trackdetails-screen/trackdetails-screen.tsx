@@ -11,6 +11,7 @@ const styles = StyleSheet.create({
   full: { flex: 1, width: "100%" },
   fullWidth: { width: "100%" },
   root: { alignItems: 'center', flex: 1, padding: 10 },
+  trackName: { textAlign: "center" }
 })
 
 export const TrackDetailsScreen = observer(function TracklistScreen() {
@@ -23,7 +24,7 @@ export const TrackDetailsScreen = observer(function TracklistScreen() {
   return (
     <SafeAreaView style={styles.full}>
       <Layout style={styles.root}>
-        <Text category="h4" style={{ textAlign: "center" }}>{track.name}</Text>
+        <Text category="h4" style={styles.trackName}>{track.name}</Text>
         <ListItem
           title={track.album}
           description={DateTime.fromMillis(track.durationMs).toFormat("mm:ss")}
