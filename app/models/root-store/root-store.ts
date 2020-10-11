@@ -34,12 +34,12 @@ export const RootStoreModel = types.model("RootStore").props({
         const refreshTokenSuccess = self.user.refreshAuthorization()
         if (refreshTokenSuccess) {
           const result = yield self.environment.api.getPlaylist(self.user.accessToken)
-          console.log("result", result)
+          // console.log("result", result)
           applySnapshot(self.playlist, result)
           return true
         }
       } catch (e) {
-        console.log(`error while trying to get playlists`, JSON.stringify(e))
+        // console.log(`error while trying to get playlists`, JSON.stringify(e))
       }
       return false
     })

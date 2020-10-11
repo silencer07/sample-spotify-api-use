@@ -7,7 +7,7 @@
 import React from "react"
 
 import { createNativeStackNavigator } from "react-native-screens/native-stack"
-import { WelcomeScreen, DemoScreen, PlaylistScreen, LoginScreen, TracklistScreen } from "../screens"
+import { PlaylistScreen, LoginScreen, TracklistScreen } from "../screens"
 import { TrackDetailsScreen } from "../screens/trackdetails-screen/trackdetails-screen"
 
 /**
@@ -27,8 +27,6 @@ export type PrimaryParamList = {
   playlist: undefined
   tracklist: undefined
   trackdetails: undefined
-  welcome: undefined
-  demo: undefined
 }
 
 // Documentation: https://github.com/software-mansion/react-native-screens/tree/master/native-stack
@@ -46,8 +44,6 @@ export function PrimaryNavigator() {
       <Stack.Screen name="playlist" component={PlaylistScreen} />
       <Stack.Screen name="tracklist" component={TracklistScreen} />
       <Stack.Screen name="trackdetails" component={TrackDetailsScreen} />
-      <Stack.Screen name="welcome" component={WelcomeScreen} />
-      <Stack.Screen name="demo" component={DemoScreen} />
     </Stack.Navigator>
   )
 }

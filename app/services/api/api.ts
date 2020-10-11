@@ -25,7 +25,7 @@ export class Api {
   async getPlaylist(accessToken: string): Promise<PlaylistSnapshot[]> {
     this.apisauce.setHeader("Authorization", `Bearer ${accessToken}`)
     const result = await this.apisauce.get("/browse/featured-playlists")
-    console.log("result", JSON.stringify(result))
+    // console.log("result", JSON.stringify(result))
     const data = result.data as any
     return data.playlists.items.map(i => {
       return {
@@ -40,7 +40,7 @@ export class Api {
 
   async getPlaylistTracks(accessToken: string, playlistId: string): Promise<TrackSnapshot[]> {
     const result = await this.apisauce.get(`/playlists/${playlistId}/tracks`)
-    console.log("result", JSON.stringify(result))
+    // console.log("result", JSON.stringify(result))
     const data = result.data as any
     return data.items.map(i => {
       const artists = i.track.album.artists.map(i => {

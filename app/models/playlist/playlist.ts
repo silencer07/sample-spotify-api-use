@@ -27,13 +27,13 @@ export const PlaylistModel = types
       self.status = "pending"
       try {
         const result = yield self.environment.api.getPlaylistTracks(accessToken, self.id)
-        console.log("result", result)
+        // console.log("result", result)
         applySnapshot(self.tracks, result)
         self.status = "done"
         return true
       } catch (e) {
         self.status = "error"
-        console.log(`error while trying to get playlist tracks`, JSON.stringify(e))
+        // console.log(`error while trying to get playlist tracks`, JSON.stringify(e))
       }
       return false
     })

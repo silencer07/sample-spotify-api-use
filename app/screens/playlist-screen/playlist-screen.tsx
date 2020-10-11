@@ -2,14 +2,13 @@ import React, { useEffect, useState } from "react"
 import { observer } from "mobx-react-lite"
 import { useNavigation } from "@react-navigation/native"
 import { useStores } from "../../models"
-import { Avatar, Layout, List, ListItem, Spinner, Text } from "@ui-kitten/components"
+import { Layout, List } from "@ui-kitten/components"
 import { Alert, SafeAreaView, StyleSheet } from "react-native"
+import { PlaylistItem } from "../../components"
 
 const styles = StyleSheet.create({
   full: { flex: 1, width: "100%" },
-  name: { marginLeft: 5 },
   root: { alignItems: 'center', flex: 1, justifyContent: 'center' },
-  trackCount: { backgroundColor: "lightgray" }
 })
 
 export const PlaylistScreen = observer(function PlaylistScreen() {
@@ -34,14 +33,11 @@ export const PlaylistScreen = observer(function PlaylistScreen() {
           style={styles.full}
           data={playlist}
           extraData={{ length: playlist.length, id: trackLoadingId }}
-          renderItem={({ item }) => (
-            <ListItem
-              title={() => <Text category="label" style={styles.name}>
-                {item.name}{' '}<Text category="label" style={styles.trackCount}>{' '}{item.trackCount}{' songs '}</Text>
-              </Text>}
-              description={item.description}
-              accessoryLeft={() => <Avatar size='giant' source={{ uri: item.imageUrl }}/>}
-              onPress={async () => {
+          renderItem={({ item }) => (<PlaylistItem
+            item={item}
+            showSpinner={trackLoadingId === item.id}
+            onPress={
+              async () => {
                 if (item.tracks.length === 0) {
                   setTrackLoadingId(item.id)
                   const refreshTokenSuccess = await refreshAuthorization()
@@ -59,9 +55,9 @@ export const PlaylistScreen = observer(function PlaylistScreen() {
                 } else {
                   navigation.navigate("tracklist", { id: item.id })
                 }
-              }}
-              accessoryRight={() => trackLoadingId === item.id ? <Spinner /> : null}
-            />
+              }
+            }
+          />
           )}
         />
       </Layout>
