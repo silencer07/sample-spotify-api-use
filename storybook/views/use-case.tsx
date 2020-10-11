@@ -1,6 +1,6 @@
 import * as React from "react"
-import * as eva from "@eva-design/eva"
-import { ApplicationProvider, Text } from "@ui-kitten/components"
+import { Divider, ListItem } from "@ui-kitten/components"
+import { StyleSheet, View } from "react-native"
 
 export interface UseCaseProps {
   /** The title. */
@@ -11,12 +11,19 @@ export interface UseCaseProps {
   children: React.ReactNode
 }
 
+const styles = StyleSheet.create({
+  container: { flex: 1 },
+  listItem: { paddingBottom: 0 }
+})
+
 export function UseCase(props: UseCaseProps) {
   return (
-    <ApplicationProvider {...eva} theme={eva.light}>
-      <Text category="h3">Use Case: {props.text}</Text>
-      <Text>Usage: {props.usage}</Text>
+    // eslint-disable-next-line react-native/no-inline-styles
+    <View style={styles.container}>
+      <Divider/>
+      <ListItem title={`Use Case: ${props.text}`} description={props.usage} style={styles.listItem} />
       {props.children}
-    </ApplicationProvider>
+      <Divider/>
+    </View>
   )
 }
